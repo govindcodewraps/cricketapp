@@ -4,7 +4,7 @@
     "slug": "cricket",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/cricket_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -19,12 +19,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/cricket_logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.oisi.cricket"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/cricket_logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b9cd633a-7002-4a6a-9b95-b82028e93cf2"
+      }
+    },
+    "owner": "oisi"
   }
 }
