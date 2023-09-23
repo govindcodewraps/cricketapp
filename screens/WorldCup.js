@@ -37,9 +37,9 @@ export default function WorldCup ({route}){
             WTC = await WCR.Get_WTestCh();
             Set_DataWTC(WTC);
         }
-        setTimeout(()=> setRefreshing(false), 2000);
+        setRefreshing(false);
     }
-    React.useEffect(async () => {
+    React.useEffect(() => {
         FetchData(0);
     }, []);
 
@@ -180,7 +180,7 @@ export default function WorldCup ({route}){
                     <TouchableOpacity onPress={()=>ICC_World_Cup()}>
                         <Text style={{color: ICCWCupActiv ? "#000000" : "#FFFFFF",
                             fontSize: ICCWCupActiv ? 12 : 10, padding: 3, 
-                            width: ICCWCupActiv ? DEVICEWIDTH * 0.34 : DEVICEWIDTH * 0.24,
+                            width: ICCWCupActiv ? DEVICEWIDTH * 0.32 : DEVICEWIDTH * 0.27,
                             backgroundColor: ICCWCupActiv ? "#7B94EC" : "#444444",
                             borderRadius: 7}}>
                                 ICC World Cup 2023</Text>
@@ -190,7 +190,7 @@ export default function WorldCup ({route}){
                     <TouchableOpacity onPress={()=>T20WorldCup()}>
                         <Text style={{color: T20WCupActiv ? "#000000" : "#FFFFFF",
                             fontSize: T20WCupActiv ? 12 : 10, padding: 3, 
-                            width: T20WCupActiv ? DEVICEWIDTH * 0.33 : DEVICEWIDTH * 0.18,
+                            width: T20WCupActiv ? DEVICEWIDTH * 0.24 : DEVICEWIDTH * 0.20,
                             backgroundColor: T20WCupActiv ? "#7B94EC" : "#444444",
                             borderRadius: 7}}>
                                 T20 World Cup</Text>
@@ -200,7 +200,7 @@ export default function WorldCup ({route}){
                     <TouchableOpacity onPress={()=>WTChampionship()}>
                         <Text style={{color: WTestChamActive ? "#000000" : "#FFFFFF",
                             fontSize: WTestChamActive ? 12 : 10, padding: 3,
-                            width: WTestChamActive ? DEVICEWIDTH * 0.45 : DEVICEWIDTH * 0.30,
+                            width: WTestChamActive ? DEVICEWIDTH * 0.40 : DEVICEWIDTH * 0.34,
                             backgroundColor: WTestChamActive ? "#7B94EC" : "#444444",
                             borderRadius: 7}}>
                                 World Test Championship</Text>

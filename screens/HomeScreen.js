@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, RefreshControl, ScrollView, StyleSheet, Dimensions, Image, TouchableOpacity}
+import { View, Text, RefreshControl, ScrollView, StyleSheet, Dimensions, Image, TouchableOpacity, ActivityIndicator}
         from "react-native";
 import { Entypo, AntDesign, Ionicons } from '@expo/vector-icons';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -17,11 +17,13 @@ const DEVICEHEIGHT = Dimensions.get('window').height;
 const HomeScreen = ({route}) => {
 
     const navigation = useNavigation();
+    const [isLoading, set_isLoading] = React.useState(true);
     const [refreshing, setRefreshing] = React.useState(false);
     const [index, setIndex] = React.useState(0);
     const MonthNm = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const isCarousel = React.useRef(null);
     const [page, setPage] = React.useState(0);
+
     const [DATAFeaturedArt, Set_DATAFeaturedArt] = React.useState([]);
     const [DATACricketCov, Set_DATACricketCov] = React.useState([]);
     const [DATATop5, Set_DATATop5] = React.useState([]);
@@ -30,9 +32,6 @@ const HomeScreen = ({route}) => {
     const [DataCricketTeam, Set_DataCricketTeam] = React.useState([]);
 
     let day, month, year;
-    const wait = timeout => {
-        return new Promise(resolve => setTimeout(resolve, timeout));
-    };
 
     const FetchData=async ()=>{
       let FA, CV, Top5, CNws, CSchdule, CTeam;
@@ -48,8 +47,13 @@ const HomeScreen = ({route}) => {
       Set_DataCricketSchdule(CSchdule);
       CTeam = await HP.Get_CricketTeam("posts?categories=3");
       Set_DataCricketTeam(CTeam);
+
+      setTimeout(()=> {
+        setRefreshing(false);
+        set_isLoading(false);
+      }, 100);
     }
-    React.useEffect(async () => {
+    React.useEffect(() => {
       FetchData();
     }, []);
     const onRefresh = React.useCallback(() => {
@@ -247,6 +251,10 @@ const HomeScreen = ({route}) => {
     //----------------------------
     return (
       <View style={styles.container}>
+        {
+          isLoading ? (
+            <ActivityIndicator/>
+          ):(
         <ScrollView
           showsVerticalScrollIndicator={false} 
           refreshControl={
@@ -429,7 +437,10 @@ const HomeScreen = ({route}) => {
                             style={{width: DEVICEWIDTH * 0.95, height: 95, borderRadius: 10,
                             marginTop: 20,}}/>
             <View style={{marginTop: 10}}></View>
-            </ScrollView>
+            </ScrollView>                    
+          )
+        }
+          
         </View>
     );
 }

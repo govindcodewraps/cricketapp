@@ -14,7 +14,7 @@ const DEVICEHEIGHT = Dimensions.get('window').height;
 
 var DomParser = require('react-native-html-parser').DOMParser;
 
-export default function ShowDetails({route}){
+export default function ShowDetails2({route}){
 
     const navigation = useNavigation();
 
@@ -25,13 +25,13 @@ export default function ShowDetails({route}){
 
     const FetchData=async ()=>{
         let Top5;
-            Top5 = await DR.Get_Detail(route.params.PageID);
+            Top5 = await DR.Get_Detail(route.params.sourceUrl);
             Set_DataDetail(Top5);
 
             setTimeout(()=> {
                 setRefreshing(false);
                 set_isLoading(false);
-            }, 100);
+            }, 300);
     }
     React.useEffect(() => {
         // setRefreshing(true);
@@ -45,13 +45,9 @@ export default function ShowDetails({route}){
     }, []);
     //-------------------------------
     const DisplayList = () => {
-        let title = DataDetail.title.rendered, desc = DataDetail.content.rendered;
-        title=title.replace(/<\/?[^>]+>/gi, '');
-
-//         let doc = new DomParser().parseFromString(desc,'text/html');
-const source = {
-    html: ` `+desc+``
-  };
+        const source = {
+            html: ` `+DataDetail+``
+        };
         function onElement(element) {
             // Remove the first two children of an ol tag.
             if (element.tagName === 'ol') {
@@ -68,21 +64,18 @@ const source = {
           }
         const domVisitors = {
             onElement: onElement
-          };
+        };
 
-            return (
-                <View style={{flexDirection: "column", marginTop: 10, marginBottom: 30,
-                        width: DEVICEWIDTH * 0.95, padding: 10, alignItems: "center"}}>
-                    <Image source={{uri: DataDetail._links["wp:featuredmedia"][0].href}} 
-                        style={{width: DEVICEWIDTH * 0.92, height: DEVICEWIDTH * 0.5, borderRadius: 8}} />
-
-                <RenderHtml
-                    contentWidth={DEVICEWIDTH * 0.8}
-                    source={source}
-                    domVisitors={domVisitors}
-                />
-                </View>
-            );
+        return (
+            <View style={{flexDirection: "column", marginTop: 10, marginBottom: 30,
+                    width: DEVICEWIDTH * 0.95, padding: 10, alignItems: "center"}}>
+            <RenderHtml
+            contentWidth={DEVICEWIDTH * 0.8}
+            source={source}
+            domVisitors={domVisitors}
+            />
+            </View>
+        );
     }
     //---------------------Main
     return (

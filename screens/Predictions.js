@@ -30,7 +30,7 @@ export default function Prediction ({route}){
             Dream = await PredRepository.Get_Dream11();
             Set_DataDream11(Dream);
         }
-        setTimeout(()=> setRefreshing(false), 2000);
+        setTimeout(()=> setRefreshing(false), 100);
     }
 
     React.useEffect(() => {
@@ -110,7 +110,8 @@ export default function Prediction ({route}){
                             justifyContent: "center"}}>
                         <TouchableOpacity onPress={()=>MatchPredMenuActive()}>
                             <Text style={{color: MatchPreActive ? "#000000" : "#FFFFFF",
-                                fontSize: MatchPreActive ? 12 : 10, padding: 3, width: DEVICEWIDTH * 0.28,
+                                fontSize: MatchPreActive ? 12 : 10, padding: 3, 
+                                width: MatchPreActive ? DEVICEWIDTH * 0.29 : DEVICEWIDTH * 0.28,
                                 backgroundColor: MatchPreActive ? "#7B94EC" : "#444444",
                                 borderRadius: 7}}>
                                     Match Predictions</Text>

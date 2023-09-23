@@ -11,6 +11,9 @@ import MoreMnu from './screens/MoreMenu';
 import MoreMenus from './screens/MoreMenu1'
 import HomeMoreDetails from './screens/home_pages/HomeMoreDetail';
 import ShowDetails from './screens/ShowDetail';
+import WebViews from './screens/WebView';
+import ShowDetails2 from './screens/ShowDetail2';
+import SeriesM_Page from './screens/SeriesM_Page';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +51,15 @@ export default function App(){
                       headerStyle: {backgroundColor: "#5EB9FE"}}}/>
         <Stack.Screen name='ShowDetail' initialParams={{screen_no: "6", title: 'Second Page'}} 
                       component={ShowDetails} options={{headerShown: false,
+                      headerStyle: {backgroundColor: "#5EB9FE"}}}/>
+        <Stack.Screen name='ShowDetails2' initialParams={{screen_no: "6", title: 'Second Page'}} 
+                      component={ShowDetails2} options={{headerShown: false,
+                      headerStyle: {backgroundColor: "#5EB9FE"}}}/>
+        <Stack.Screen name='SeriesM_Page' initialParams={{screen_no: "6", title: 'Second Page'}} 
+                      component={SeriesM_Page} options={{headerShown: false,
+                      headerStyle: {backgroundColor: "#5EB9FE"}}}/>
+        <Stack.Screen name='WebView' initialParams={{screen_no: "6", title: 'Second Page'}} 
+                      component={WebViews} options={{headerShown: false,
                       headerStyle: {backgroundColor: "#5EB9FE"}}}/>
       </Stack.Navigator>
     );

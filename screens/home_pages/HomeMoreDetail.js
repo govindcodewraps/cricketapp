@@ -35,12 +35,11 @@ export default function HomeMoreDetails({route}){
         }
         setTimeout(()=> setRefreshing(false), 1000);
     }
-    React.useEffect(async () => {
+    React.useEffect(() => {
         FetchData();
     }, []);
     //-------------------------------
     const DisplayList = ({item}) => {
-        console.log("HomeMoreDetail.js, Top5Top10, url : ", item._links['wp:featuredmedia'][0].href);
         let title = item.title.rendered, desc = item.excerpt.rendered, dt = item.date, time, month;
           title=title.replace(/<\/?[^>]+>/gi, '');
           desc=desc.replace(/<\/?[^>]+>/gi, '');
@@ -53,7 +52,7 @@ export default function HomeMoreDetails({route}){
   
         return (
             <TouchableOpacity key={item.id} onPress={()=>navigation.navigate("ShowDetail", 
-                    {title: route.params.title, PageID: item.id})}>    
+                    {title: title.substring(0, 20), PageID: item.id})}>    
                 <View style={[styles.cardview2, {flexDirection: "row", marginTop: 10,
                         width: DEVICEWIDTH * 0.95, padding: 10}]}>
                     <Image source={{uri: item._links['wp:featuredmedia'][0].href}} 

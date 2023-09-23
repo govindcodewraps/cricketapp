@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigation } from '@react-navigation/native'
-import { View, Text, Dimensions, ActivityIndicator, Image, SafeAreaView, StyleSheet, ScrollView, 
+import { View, Text, Dimensions, ActivityIndicator, Image, SafeAreaView, StyleSheet, FlatList, 
             RefreshControl, } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
@@ -14,27 +14,25 @@ const DEVICEHEIGHT = Dimensions.get('window').height;
 
 var DomParser = require('react-native-html-parser').DOMParser;
 
-export default function ShowDetails({route}){
+export default function SeriesM_Page({route}){
 
     const navigation = useNavigation();
 
     const [isLoading, set_isLoading] = React.useState(true);
     const [refreshing, setRefreshing] = React.useState(false);
     const [DataDetail, Set_DataDetail] = React.useState([]);
-    const MonthNm = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     const FetchData=async ()=>{
         let Top5;
-            Top5 = await DR.Get_Detail(route.params.PageID);
+            Top5 = await DR.Get_SeriesMenuPage(route.params.sourceUrl);
             Set_DataDetail(Top5);
 
             setTimeout(()=> {
                 setRefreshing(false);
                 set_isLoading(false);
-            }, 100);
+            }, 300);
     }
     React.useEffect(() => {
-        // setRefreshing(true);
         FetchData();
     }, []);
 
@@ -44,14 +42,10 @@ export default function ShowDetails({route}){
         
     }, []);
     //-------------------------------
-    const DisplayList = () => {
-        let title = DataDetail.title.rendered, desc = DataDetail.content.rendered;
-        title=title.replace(/<\/?[^>]+>/gi, '');
-
-//         let doc = new DomParser().parseFromString(desc,'text/html');
-const source = {
-    html: ` `+desc+``
-  };
+    const DisplayList = ({item}) => {
+        const source = {
+            html: ` `+item.content.rendered+`\n`+item.excerpt.rendered+``
+        };
         function onElement(element) {
             // Remove the first two children of an ol tag.
             if (element.tagName === 'ol') {
@@ -68,21 +62,22 @@ const source = {
           }
         const domVisitors = {
             onElement: onElement
-          };
+        };
 
-            return (
-                <View style={{flexDirection: "column", marginTop: 10, marginBottom: 30,
-                        width: DEVICEWIDTH * 0.95, padding: 10, alignItems: "center"}}>
-                    <Image source={{uri: DataDetail._links["wp:featuredmedia"][0].href}} 
-                        style={{width: DEVICEWIDTH * 0.92, height: DEVICEWIDTH * 0.5, borderRadius: 8}} />
+        return (
+            <View style={{flexDirection: "column", marginTop: 10, marginBottom: 30,
+                    width: DEVICEWIDTH * 0.95, padding: 10, alignItems: "center"}}>
+                <Image source={{uri: item._links["wp:featuredmedia"][0].href}} 
+                       style={{width: DEVICEWIDTH * 0.92, height: DEVICEWIDTH * 0.5,
+                       borderRadius: 8}}/>
 
                 <RenderHtml
                     contentWidth={DEVICEWIDTH * 0.8}
                     source={source}
                     domVisitors={domVisitors}
                 />
-                </View>
-            );
+            </View>
+        );
     }
     //---------------------Main
     return (
@@ -101,26 +96,23 @@ const source = {
                 {/* Body */}
                 <View style={{height: DEVICEHEIGHT * 0.921, width: DEVICEWIDTH, backgroundColor: "#FFFFFF",
                             alignItems: "center"}}>
-                    <ScrollView
-                    showsVerticalScrollIndicator={false} 
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                        />
-                    }
-                    >
                         {
                             isLoading ? (
                                 <ActivityIndicator/>
                             ):(
-                                <DisplayList/>
+                                <FlatList
+                                    data={DataDetail}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    enableEmptySections={true}
+                                    renderItem={DisplayList}
+                                    refreshControl={
+                                        <RefreshControl refreshing={refreshing} 
+                                        onRefresh={()=>FetchData()} />
+                                    }
+                                />
+
                             )
                         }
-
-
-
-                    </ScrollView>            
                 </View>
 
             </SafeAreaView>
